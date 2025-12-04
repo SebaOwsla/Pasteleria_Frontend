@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 
 export const Carrito = () => {
-  const { items, addToCart, removeOne, removeAll, clearCart, formatCLP} = useCart();
+  const { items, addToCart, removeOne, removeAll, clearCart, formatCLP } = useCart();
   const navigate = useNavigate();
   const goBack = () => {
     navigate("/productos"); // o "/products", según tu ruta

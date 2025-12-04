@@ -1,86 +1,97 @@
-import { Link } from "react-router-dom";
-import { products } from "../data/products";
-import { useState } from "react";
-import "../assets/styles.css";
+import { useEffect, useState } from "react";
+import { getProducts } from "../data/products";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useCart } from "../contexts/CartContext"; // ✅ conexión con el contexto
+import { Link } from "react-router-dom";
 
-export const Products = () => {
-  const { addToCart, formatCLP } = useCart();
-  const categories = ["all", ...new Set(products.map((p) => p.category))];
-  const [selectedCategory, setSelectedCategory] = useState("all");
+export const Product = () => {
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [category, setCategory] = useState<string>("all");
 
-  const filteredProducts =
-    selectedCategory === "all"
+  useEffect(() => {
+    getProducts()
+      .then((data) => {
+        setProducts(data || []);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error cargando productos:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <p className="text-center mt-5">Cargando productos...</p>;
+  if (products.length === 0)
+    return <p className="text-center mt-5">No hay productos disponibles.</p>;
+
+  const filtered =
+    category === "all"
       ? products
-      : products.filter((p) => p.category === selectedCategory);
+      : products.filter((p) => p.categoria === category);
 
   return (
-    <>
+    <div style={{ backgroundColor: "#ffc8a0", minHeight: "100vh" }}>
       <Navbar />
 
-      <div className="container my-5">
-        <h1 className="titulo text-center mb-4">Nuestros Productos</h1>
+      <div className="container mt-4">
+        <h2 className="text-center mb-4">Nuestros Productos</h2>
 
-        <div className="d-flex justify-content-center mb-5">
-          <div className="categoria d-flex align-items-center">
-            <label htmlFor="category" className="texto-categoria me-3">
-              Categoría
-            </label>
-            <select
-              name="category"
-              id="category"
-              className="form-select form-select-sm w-auto"
-              onChange={(e) => setSelectedCategory(e.target.value)}
-            >
-              {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat === "all" ? "Todos los productos" : cat}
-                </option>
-              ))}
-            </select>
-          </div>
+        <div className="d-flex justify-content-center mb-3 gap-3">
+          <button
+            className="btn btn-outline-dark"
+            onClick={() => setCategory("all")}
+          >
+            Todos
+          </button>
+          <button
+            className="btn btn-outline-dark"
+            onClick={() => setCategory("tortaPersonalizada")}
+          >
+            Personalizadas
+          </button>
+          <button
+            className="btn btn-outline-dark"
+            onClick={() => setCategory("tortaClasica")}
+          >
+            Clásicas
+          </button>
         </div>
 
-        <div className="row g-4">
-          {filteredProducts.map((p) => (
-            <div key={p.id} className="col-lg-4 col-md-6 col-12">
+
+        <div className="row">
+          {filtered.map((product) => (
+            <div className="col-md-4 mb-4" key={product.id}>
               <div className="card h-100 shadow-sm">
-                <div
-                  className="card-img-container"
-                  style={{ height: "200px", overflow: "hidden" }}
-                >
-                  <img
-                    src={p.imageSrc}
-                    className="card-img-top"
-                    alt={p.name}
-                    style={{ objectFit: "cover", height: "100%" }}
-                  />
-                </div>
+                <img
+                  src={product.imagen}
+                  className="card-img-top"
+                  alt={product.nombre}
+                  style={{
+                    objectFit: "cover",
+                    height: "250px",
+                    borderRadius: "8px",
+                  }}
+                />
+
 
                 <div className="card-body d-flex flex-column">
-                  <h5 className="card-title fw-bold text-truncate">{p.name}</h5>
-                  <p className="card-text flex-grow-1">{p.description}</p>
+                  <h5 className="card-title">{product.nombre}</h5>
 
-                  <div className="mt-auto pt-3">
-                    <p className="card-price fs-5 fw-bold mb-3">
-                      Precio: {formatCLP(p.price)}
-                    </p>
+                  <p className="card-text flex-grow-1">
+                    {product.descripcion}
+                  </p>
 
-                    <div className="d-grid gap-2">
-                      <Link className="btn btn-dark" to={`/products/${p.id}`}>
-                        Ver detalle
-                      </Link>
 
-                      {/* ✅ Ahora este botón agrega al carrito */}
-                      <button
-                          className="btn btn-primary btn-sm"
-                          onClick={() => addToCart({ ...p, title: p.name })}
-                        >
-                          Agregar al carrito
-                        </button>
-                    </div>
+                  <div className="mt-auto">
+                    <p className="fw-bold mb-2">$ {product.precio}</p>
+
+                    <Link
+                      to={`/productos/${product.id}`}
+                      className="btn btn-dark w-100"
+                    >
+                      Ver Detalle
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -88,10 +99,9 @@ export const Products = () => {
           ))}
         </div>
       </div>
-
       <Footer />
-    </>
+    </div>
   );
 };
 
-export default Products;
+export default Product;
