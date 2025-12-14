@@ -18,7 +18,7 @@ const EditProduct = () => {
   useEffect(() => {
     if (!id) return;
 
-   
+
     api
       .get(`/productos/${id}`)
       .then((res) => {
@@ -112,7 +112,7 @@ const EditProduct = () => {
               className="form-control"
               value={precio}
               onChange={(e) => setPrecio(e.target.value)}
-              min={1}
+              min={5000}
               required
             />
           </div>

@@ -13,7 +13,6 @@ interface Producto {
   categoria: string;
 }
 
-
 export const Home: React.FC = () => {
   const [productos, setProductos] = useState<Producto[]>([]);
   const [loading, setLoading] = useState(true);
@@ -31,11 +30,10 @@ export const Home: React.FC = () => {
       });
   }, []);
 
-  
-
   return (
     <div style={{ backgroundColor: "#ffc8a0" }}>
       <Navbar />
+
       <section id="productos" className="p-4" style={{ backgroundColor: "#ffc8a0" }}>
         <div className="container my-5 p-5 rounded-3" style={{ backgroundColor: "#5d4037e0" }}>
           <h1 className="text-center text-white mb-5">Productos Destacados</h1>

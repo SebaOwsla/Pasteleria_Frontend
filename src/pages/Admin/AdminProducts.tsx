@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { api } from "../../api/client";
@@ -16,6 +16,17 @@ type AdminProduct = {
 const AdminProducts = () => {
   const [products, setProducts] = useState<AdminProduct[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
+  const handleBack = () => {
+    navigate("/admin");
+  };
 
   const cargarProductos = () => {
     setLoading(true);
@@ -52,7 +63,7 @@ const AdminProducts = () => {
       <div style={{ backgroundColor: "#ffc8a0", minHeight: "100vh" }}>
         <Navbar />
         <div className="container py-5">
-          <h2 className="text-center">Gestión de productos</h2>
+          <h2 className="text-center">Gestión de tortas</h2>
           <p className="text-center mt-3">Cargando productos...</p>
         </div>
         <Footer />
@@ -67,10 +78,31 @@ const AdminProducts = () => {
       <div className="container py-4">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h2>Gestión de tortas</h2>
-          <Link to="/admin/productos/nuevo" className="btn btn-success">
-            + Agregar torta
-          </Link>
+
+          <div className="d-flex gap-2">
+            <button
+              className="btn btn-secondary"
+              onClick={handleBack}
+            >
+              ⬅ Volver
+            </button>
+
+            <Link
+              to="/admin/productos/nuevo"
+              className="btn btn-success"
+            >
+              + Agregar torta
+            </Link>
+
+            <button
+              className="btn btn-danger"
+              onClick={handleLogout}
+            >
+              Cerrar sesión
+            </button>
+          </div>
         </div>
+
 
         {products.length === 0 ? (
           <p>No hay productos cargados.</p>

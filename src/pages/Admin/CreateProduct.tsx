@@ -75,7 +75,7 @@ const CreateProduct = () => {
               className="form-control"
               value={precio}
               onChange={(e) => setPrecio(e.target.value)}
-              min={1}
+              min={5000}
               required
             />
           </div>

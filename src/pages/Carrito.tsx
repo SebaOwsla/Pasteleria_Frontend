@@ -8,7 +8,7 @@ export const Carrito = () => {
   const { items, addToCart, removeOne, removeAll, clearCart, formatCLP } = useCart();
   const navigate = useNavigate();
   const goBack = () => {
-    navigate("/productos"); // o "/products", según tu ruta
+    navigate("/productos");
   };
 
   const totalAmount = items.reduce(
@@ -16,7 +16,6 @@ export const Carrito = () => {
     0
   );
 
-  // AQUÍ VA EL RETURN CORREGIDO
   if (items.length === 0) {
     return (
       <>
@@ -30,7 +29,7 @@ export const Carrito = () => {
     );
   }
 
-  // El resto del código cuando SÍ hay items
+  
   return (
     <>
       <Navbar />

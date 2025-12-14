@@ -15,12 +15,7 @@ import Registro from "./pages/Registro";
 import Carrito from "./pages/Carrito";
 import "./index.css";
 import "./assets/styles.css";
-import { useEffect, useState } from "react";
-
 export default function App() {
-
-  
-  
   return (
     <Routes>
       <Route path="/" element={<Index />} />
@@ -78,7 +73,5 @@ export default function App() {
 
       <Route path="/contacto" element={<Contact />} />
     </Routes>
-
-    
   );
 }

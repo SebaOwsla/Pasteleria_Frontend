@@ -13,15 +13,20 @@ export default function Login() {
   const [alertMsg, setAlertMsg] = useState("");
   const [alertType, setAlertType] = useState<"success" | "danger" | "">("");
 
+  
+  const emailValido = (correo: string) =>
+    /^[A-Za-z0-9._%+-]+@(duoc\.cl|profesorduoc\.cl|gmail\.com|admin\.cl)$/.test(correo);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     setAlertMsg("");
     setAlertType("");
 
-    if (!email.endsWith("@duoc.cl")) {
+   
+    if (!emailValido(email)) {
       setAlertType("danger");
-      setAlertMsg("El correo debe terminar en @duoc.cl");
+      setAlertMsg("Correo válido: @duoc.cl / @profesorduoc.cl / @gmail.com / @admin.cl");
       return;
     }
 
@@ -37,25 +42,21 @@ export default function Login() {
         password,
       });
 
-
       localStorage.setItem("token", response.data.token);
-  
 
       setAlertType("success");
-      setAlertMsg("Inicio de sesión exitoso ");
+      setAlertMsg("Inicio de sesión exitoso ✅");
 
       setTimeout(() => {
         const role = getUserRole();
         const upperRole = role ? role.toUpperCase() : "";
 
         if (upperRole === "ADMIN") {
-
           navigate("/admin");
         } else {
-
           navigate("/");
         }
-      }, 800);
+      }, 500);
     } catch (error: any) {
       console.error("Error en login:", error);
 
@@ -75,22 +76,15 @@ export default function Login() {
         <h2 className="text-center mb-4">Iniciar sesión</h2>
 
         {alertMsg && (
-          <div
-            className={`alert alert-${alertType === "" ? "info" : alertType
-              } text-center`}
-          >
+          <div className={`alert alert-${alertType === "" ? "info" : alertType} text-center`}>
             {alertMsg}
           </div>
         )}
 
-        <form
-          onSubmit={handleSubmit}
-          className="mx-auto"
-          style={{ maxWidth: "400px" }}
-        >
+        <form onSubmit={handleSubmit} className="mx-auto" style={{ maxWidth: "400px" }}>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
-              Correo institucional
+              Correo
             </label>
             <input
               id="email"
@@ -98,7 +92,7 @@ export default function Login() {
               className="form-control"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="ejemplo@duoc.cl"
+              placeholder="ejemplo@gmail.com"
               required
             />
           </div>

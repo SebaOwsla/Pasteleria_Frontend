@@ -14,7 +14,6 @@ type FormValues = {
   fechaNacimiento: string;
   region: string;
   comuna: string;
-  tipoUsuario: string;
 };
 
 export const Registro: React.FC = () => {
@@ -46,7 +45,10 @@ export const Registro: React.FC = () => {
       correo: data.correo,
       password: data.password,
       fechaNacimiento: data.fechaNacimiento,
-      tipoUsuario: data.tipoUsuario,
+
+    
+      tipoUsuario: "USER",
+
       telefono: data.telefono,
       region: data.region,
       comuna: data.comuna,
@@ -141,27 +143,12 @@ export const Registro: React.FC = () => {
                       required: "El correo es obligatorio",
                       pattern: {
                         value: /^[A-Za-z0-9._%+-]+@(duoc\.cl|profesorduoc\.cl|gmail\.com|admin\.cl)$/,
-                        message: "Correo válido: @duoc.cl / @profesorduoc.cl / @gmail.com / @admin\.cl",
+                        message:
+                          "Correo válido: @duoc.cl / @profesorduoc.cl / @gmail.com / @admin.cl",
                       },
                     })}
                   />
                   {errors.correo && <p className="text-danger">{errors.correo.message}</p>}
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Tipo de usuario</label>
-                  <select
-                    className="form-select"
-                    {...register("tipoUsuario", {
-                      required: "Seleccione el tipo de usuario",
-                    })}
-                  >
-                    <option value="">Seleccione un tipo...</option>
-                    <option value="USER">Usuario</option>
-                    <option value="ADMIN">Administrador</option>
-                  </select>
-                  {errors.tipoUsuario && (
-                    <p className="text-danger">{errors.tipoUsuario.message}</p>
-                  )}
                 </div>
 
                 <div className="row g-3">
@@ -214,10 +201,7 @@ export const Registro: React.FC = () => {
 
                 <div className="mb-3">
                   <label className="form-label">Región</label>
-                  <select
-                    className="form-select"
-                    {...register("region", { required: "Seleccione una región" })}
-                  >
+                  <select className="form-select" {...register("region", { required: "Seleccione una región" })}>
                     <option value="">Selecciona tu región…</option>
                     <option value="RM">Región Metropolitana</option>
                     <option value="V">Valparaíso</option>
@@ -228,10 +212,7 @@ export const Registro: React.FC = () => {
 
                 <div className="mb-3">
                   <label className="form-label">Comuna</label>
-                  <select
-                    className="form-select"
-                    {...register("comuna", { required: "Seleccione una comuna" })}
-                  >
+                  <select className="form-select" {...register("comuna", { required: "Seleccione una comuna" })}>
                     <option value="">Selecciona tu comuna…</option>
                     <option value="Santiago">Santiago</option>
                     <option value="Ñuñoa">Ñuñoa</option>
@@ -244,6 +225,11 @@ export const Registro: React.FC = () => {
                   Crear cuenta
                 </button>
               </form>
+
+  
+              <p className="text-muted small mt-3 mb-0">
+                * Las cuentas creadas desde aquí se registran como <b>USER</b>. El rol ADMIN solo lo asigna un administrador.
+              </p>
             </div>
           </div>
         </div>
