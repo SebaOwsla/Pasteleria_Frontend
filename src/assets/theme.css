@@ -10,10 +10,9 @@
   --muted: rgba(242,242,242,.72);
   --border: rgba(203,179,122,.22);
 
-  /* ✅ NUEVO: fuentes */
+  /* fuentes */
   --font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --font-title: "RelatePersonalUse", serif;
-
 }
 
 /* =========================
@@ -26,7 +25,7 @@
 }
 
 /* =========================
-   TIPOGRAFÍA GLOBAL (BONITA)
+   TIPOGRAFÍA GLOBAL
    ========================= */
 body{
   font-family: var(--font-body);
@@ -46,11 +45,8 @@ body{
   letter-spacing: 0.6px;
 }
 
-/* Subtítulos y párrafos */
-.elegant-subtitle,
-.section-box p,
-.card-text,
-p{
+/* Subtítulos */
+.elegant-subtitle{
   font-family: var(--font-body);
 }
 
@@ -70,6 +66,20 @@ p{
 }
 
 /* =========================
+   DESCRIPCIONES / TEXTO NORMAL
+   (aquí cambias el tamaño)
+   ========================= */
+p,
+.section-box p,
+.elegant-card p,
+.elegant-product p,
+.card-text{
+  font-size: 0.95rem;   /* ✅ cambia: 0.85rem (más chico) / 1rem (más grande) */
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+/* =========================
    NAVBAR ELEGANTE (Bootstrap friendly)
    ========================= */
 .elegant-navbar{
@@ -83,6 +93,7 @@ p{
   top: 0;
   z-index: 3000;
 
+  /* Vars bootstrap */
   --bs-navbar-color: rgba(242,242,242,0.92);
   --bs-navbar-hover-color: #e6d3a3;
   --bs-navbar-active-color: #e6d3a3;
@@ -108,6 +119,7 @@ p{
   color: var(--gold2) !important;
 }
 
+/* ✅ Fix logo gigante */
 .elegant-navbar .brand-logo{
   width: 36px;
   height: 36px;
@@ -116,11 +128,12 @@ p{
   flex: 0 0 auto;
 }
 
+/* evita reglas globales que estiran imágenes */
 .elegant-navbar img{
   max-width: none !important;
 }
 
-/* Links */
+/* Links visibles SIEMPRE */
 .elegant-navbar .nav-link,
 .elegant-navbar .navbar-nav .nav-link{
   color: rgba(242,242,242,0.92) !important;
@@ -139,6 +152,7 @@ p{
   border-bottom: 2px solid var(--gold);
 }
 
+/* Toggler */
 .elegant-navbar .navbar-toggler{
   border-color: rgba(230,211,163,.35);
 }
@@ -171,7 +185,7 @@ p{
   font-size: 12px;
 }
 
-/* Desktop: asegurar collapse visible */
+/* Desktop */
 @media (min-width: 992px){
   .navbar-expand-lg .navbar-collapse{
     display: flex !important;
@@ -183,7 +197,7 @@ p{
   }
 }
 
-/* Mobile: el menú colapsado necesita fondo */
+/* Mobile */
 @media (max-width: 991px){
   .elegant-navbar .navbar-nav{
     gap: 10px;
@@ -276,7 +290,7 @@ p{
   padding: 16px;
 }
 
-/* Ajuste fino en móvil */
+/* Ajuste fino móvil */
 @media (max-width: 576px){
   .elegant-wrap{
     padding: 20px 12px;
@@ -290,15 +304,24 @@ p{
   .section-box{
     padding: 14px;
   }
-  /* =========================
-   FUENTE PERSONALIZADA
+
+  /* Descripciones un poquito más chicas en móvil */
+  p,
+  .section-box p,
+  .elegant-card p,
+  .elegant-product p,
+  .card-text{
+    font-size: 0.90rem;
+  }
+}
+
+/* =========================
+   FUENTE PERSONALIZADA (fuera de media query ✅)
    ========================= */
-@font-face {
+@font-face{
   font-family: "Showclick";
   src: url("./fonts/Showclick.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
-}
-
 }
