@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getProducts } from "../data/products";
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
@@ -9,17 +9,6 @@ export const Product = () => {
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState<string>("all");
 
-  useEffect(() => {
-    getProducts()
-      .then((data) => {
-        setProducts(data || []);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error cargando productos:", err);
-        setLoading(false);
-      });
-  }, []);
 
   if (loading) return <p className="text-center mt-5">Cargando productos...</p>;
   if (products.length === 0)

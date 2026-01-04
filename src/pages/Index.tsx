@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { api } from "../api/client";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 interface Producto {
@@ -17,18 +16,7 @@ export const Home: React.FC = () => {
   const [productos, setProductos] = useState<Producto[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    api
-      .get("/productos")
-      .then((res) => {
-        setProductos(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error cargando productos en Home:", err);
-        setLoading(false);
-      });
-  }, []);
+  
 
   return (
     <div style={{ backgroundColor: "#ffc8a0" }}>
