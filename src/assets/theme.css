@@ -1,0 +1,173 @@
+:root{
+  --bg: #0b0c0d;          /* negro suave */
+  --panel: rgba(20,22,24,.78);
+  --panel2: rgba(26,29,31,.85);
+  --green: #5f705f;       /* verde estilo logo */
+  --green2:#3f4c41;
+  --gold: #cbb37a;        /* dorado */
+  --gold2:#e6d3a3;
+  --text: #f2f2f2;
+  --muted: rgba(242,242,242,.72);
+  --border: rgba(203,179,122,.22);
+}
+
+/* =========================
+   NAVBAR ELEGANTE (BOOTSTRAP FRIENDLY)
+   ========================= */
+.elegant-navbar{
+  background: rgba(15,17,19,.85) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(203,179,122,.18);
+}
+
+.elegant-navbar .navbar-brand,
+.elegant-navbar .brand-text{
+  color: var(--gold2) !important;
+  font-weight: 900;
+  letter-spacing: .4px;
+}
+
+/* Links visibles SI O SI */
+.elegant-navbar .nav-link{
+  color: var(--text) !important;
+  font-weight: 600;
+  opacity: 1 !important;
+}
+
+.elegant-navbar .nav-link:hover{
+  color: var(--gold2) !important;
+}
+
+.elegant-navbar .nav-link.active{
+  color: var(--gold2) !important;
+  border-bottom: 2px solid var(--gold);
+}
+
+/* Toggler visible en fondo oscuro */
+.elegant-navbar .navbar-toggler{
+  border-color: rgba(230,211,163,.35);
+}
+
+.elegant-navbar .navbar-toggler-icon{
+  filter: invert(1);
+}
+
+/* Botón (si lo usas en navbar) */
+.elegant-nav-btn{
+  background: linear-gradient(135deg, var(--gold2), var(--gold)) !important;
+  color: #101214 !important;
+  font-weight: 800;
+  border-radius: 12px;
+  border: none !important;
+  padding: 8px 14px;
+}
+
+.elegant-nav-btn:hover{
+  filter: brightness(1.05);
+}
+
+/* Badge carrito */
+.cart-badge{
+  background: var(--gold);
+  color: #101214;
+  font-weight: 900;
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+/* Importante:
+   NO forzar display del collapse.
+   Bootstrap controla .collapse / .show.
+   Solo ordenamos la lista en móvil/desktop.
+*/
+@media (min-width: 992px){
+  .elegant-navbar .navbar-nav{
+    flex-direction: row;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 991px){
+  .elegant-navbar .navbar-nav{
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* =========================
+   FONDO GENERAL ELEGANTE
+   ========================= */
+.elegant-bg{
+  min-height: 100vh;
+  color: var(--text);
+  background:
+    radial-gradient(900px 520px at 50% 25%, rgba(95,112,95,.35), transparent 60%),
+    radial-gradient(700px 420px at 50% 80%, rgba(203,179,122,.18), transparent 60%),
+    linear-gradient(180deg, #070809, var(--bg));
+}
+
+/* Caja principal */
+.elegant-wrap{
+  padding: 32px 16px;
+}
+
+.elegant-card{
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 28px 22px;
+  box-shadow: 0 18px 60px rgba(0,0,0,.45);
+  backdrop-filter: blur(10px);
+}
+
+/* Títulos */
+.elegant-title{
+  color: var(--gold2);
+  letter-spacing: .3px;
+}
+
+.elegant-subtitle{
+  color: var(--muted);
+}
+
+/* Tarjetas de producto */
+.elegant-product{
+  background: var(--panel2);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 14px 40px rgba(0,0,0,.35);
+}
+
+/* Botón dorado */
+.elegant-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 800;
+  color: #101214;
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  border: 1px solid rgba(230,211,163,.55);
+  box-shadow: 0 12px 26px rgba(203,179,122,.22);
+}
+
+.elegant-btn:hover{
+  filter: brightness(1.04);
+  transform: translateY(-1px);
+}
+
+.section-title{
+  color: var(--gold2);
+}
+
+.section-box{
+  background: var(--panel2);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 16px;
+  padding: 16px;
+}

@@ -1,26 +1,26 @@
-/* ======== ESTILO GENERAL ======== */
+
 body {
-  background-color: #ffc8a0 !important; /* igual que en index.html */
+  background-color: #0b0c0d !important;
   font-family: "Poppins", sans-serif;
-  color: #3e2723;
+  color: #f2f2f2;
   margin: 0;
   padding: 0;
   padding-bottom: 80px;
 }
 
-/* ======== NAVBAR ======== */
-.navbar {
+
+.navbar-old {
   background-color: #3a1600;
   padding: 0px 20px;
 }
 
-.navbar .container {
+.navbar-old .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.navbar .nav-links {
+.navbar-old .nav-links {
   display: flex;
   list-style: none;
   gap: 20px;
@@ -28,66 +28,32 @@ body {
   padding: 0;
 }
 
-.navbar a {
+.navbar-old a {
   text-decoration: none;
   color: #fffcfa;
   font-weight: 500;
 }
-.navbar a:hover {
+.navbar-old a:hover {
   color: #e98b47;
 }
 
-/* ======== TARJETAS DE PRODUCTO ======== */
-.card {
-  background-color: #5D4037; /* marrón chocolate */
+/* ======== TARJETAS (RENOMBRADAS) ======== */
+.custom-card {
+  background-color: #5d4037;
   color: aliceblue;
-  
   border-radius: 10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: none;
 }
 
-.card:hover {
+.custom-card:hover {
   transform: scale(1.03);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-.card-img-top {
-  width: 100%;
-  height: 183px;
-  object-fit: cover;
-  object-position: center;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
-
-.card-body {
-  padding: 20px;
-  text-align: center;
-}
-
-.card-title {
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-.card-text {
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-
-.card-price {
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #fff8e1;
-  margin: 10px 0;
-}
-
-/* ======== BOTONES ======== */
-.btn-primary,
-.btn-dark,
-.btn {
-  background-color: #E98B47 !important;
+/* ======== BOTONES (RENOMBRADOS) ======== */
+.custom-btn {
+  background-color: #e98b47 !important;
   border: none;
   color: #000;
   transition: all 0.3s ease;
@@ -95,31 +61,12 @@ body {
   border-radius: 6px;
 }
 
-.btn:hover {
-  background-color: #F4A261 !important;
-  color: #2F2F2F !important;
+.custom-btn:hover {
+  background-color: #f4a261 !important;
+  color: #2f2f2f !important;
 }
 
-/* ======== FORMULARIOS (LOGIN / REGISTER) ======== */
-.card-body-custom {
-  align-items: center !important;
-  text-align: center;
-}
-
-.card-login,
-.card-register {
-  background-color: #FFD6D1 !important;
-  border-radius: 15px;
-  border: none;
-}
-
-h1,
-h2 {
-  color: #5D4037 !important;
-  text-align: center;
-}
-
-/* ======== DETALLE DE PRODUCTO ======== */
+/* ======== DETALLE DE PRODUCTO (se mantiene) ======== */
 .product-detail {
   display: flex;
   flex-wrap: wrap;
@@ -127,7 +74,7 @@ h2 {
   margin: 40px 0;
   align-items: center;
   justify-content: center;
-  background-color: #5d4037e0;
+  background-color: rgba(26, 29, 31, 0.85);
   padding: 50px;
   border-radius: 10px;
   color: aliceblue;
@@ -149,20 +96,13 @@ footer {
   bottom: 0;
   left: 0;
   width: 100%;
-  z-index: 1000; 
-  background-color: rgb(46, 0, 0);
+  z-index: 1000;
+  background-color: rgba(15, 17, 19, 0.85);
   color: aliceblue;
   padding: 10px 20px;
   text-align: center;
   font-size: 0.9rem;
-  
-}
-
-footer h2 {
-  background-color: orange;
-  color: aliceblue;
-  padding: 10px;
-  border-radius: 6px;
+  border-top: 1px solid rgba(203, 179, 122, 0.18);
 }
 
 footer a {
@@ -173,33 +113,13 @@ footer a {
 
 footer a:hover {
   text-decoration: underline;
-  color: #ffc8a0;
+  color: #e6d3a3;
 }
 
 /* ======== RESPONSIVE ======== */
 @media (max-width: 768px) {
-  .card {
-    width: 90%;
-  }
-
   .product-detail {
     flex-direction: column;
     padding: 20px;
   }
-}
-
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-}
-
-.row {
-  row-gap: 30px; /* Espacio vertical entre filas */
-}
-
-.card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
 }

@@ -4,6 +4,10 @@ import App from "./App";
 import "./index.css";
 import { HashRouter } from "react-router-dom";
 import { CartProvider } from "./contexts/CartContext";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
+
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

@@ -1,66 +1,49 @@
-/* Imported original site styles */
-@import './assets/styles.css';
+
+@import './assets/theme.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
-/* Basic reset and simple styles extracted/created */
+/* Reset */
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-.container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.navbar {
-    background: #5d4037e0;
-    padding: 10px 0
-}
-
-.navbar .container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 12px;
-    margin: 0;
-    padding: 0
+/* ⚠️ NO sobrescribir .container (Bootstrap lo usa)
+   Usa tu propia clase */
+.app-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
 }
 
 .product-card {
-    border: 1px solid #ddd;
-    padding: 12px;
-    border-radius: 8px;
-    text-align: center
+  border: 1px solid #ddd;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
 }
 
 .placeholder-img {
-    height: 120px;
-    background: #eee;
-    display: flex;
-    align-items: center;
-    justify-content: center
+  height: 120px;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .site-footer {
-    background: #f1f1f1;
-    padding: 20px;
-    text-align: center;
-    margin-top: 20px
+  background: #f1f1f1;
+  padding: 20px;
+  text-align: center;
+  margin-top: 20px;
 }
