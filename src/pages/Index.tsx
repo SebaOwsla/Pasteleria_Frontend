@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 /* IMÁGENES */
 import img8361 from "../assets/imagenes/IMG_8361-Mejorado-NR.jpg";
@@ -32,11 +31,10 @@ interface Producto {
   categoria: string;
 }
 
-export const Home: React.FC = () => {
-  const [productos, setProductos] = useState<Producto[]>([]);
-  const [loading, setLoading] = useState(true);
+const Home: React.FC = () => {
+  const [productos] = useState<Producto[]>([]);
 
-  /* SLIDES (img9124 sube más arriba) */
+  /* SLIDER */
   const slides = [
     { src: img8361, alt: "Orígenes - Ambiente" },
     { src: img8398, alt: "Orígenes - Cocina" },
@@ -56,21 +54,12 @@ export const Home: React.FC = () => {
     {
       src: img9124,
       alt: "Orígenes - Cocina",
-      position: "center 25", // ⬅ sube esta imagen (ajusta 0% / 10% / 20%)
+      position: "center 24%",
     },
   ];
 
   const [slideIndex, setSlideIndex] = useState(0);
 
-  const prevSlide = () => {
-    setSlideIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  };
-
-  const nextSlide = () => {
-    setSlideIndex((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-  };
-
-  /* AUTO-PLAY */
   useEffect(() => {
     const id = setInterval(() => {
       setSlideIndex((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
@@ -83,7 +72,7 @@ export const Home: React.FC = () => {
       <Navbar />
 
       {/* HERO */}
-      <section id="productos" className="elegant-wrap">
+      <section className="elegant-wrap">
         <div className="container elegant-card">
           <h1 className="text-center elegant-title mb-2">
             Esto es Orígenes RestoBar
@@ -92,13 +81,13 @@ export const Home: React.FC = () => {
             Sabores con identidad. Hechos para compartir.
           </p>
 
-          {/* CARRUSEL */}
+          {/* SLIDER */}
           <div className="origenes-slider">
             <button
-              type="button"
               className="origenes-slider__btn origenes-slider__btn--left"
-              onClick={prevSlide}
-              aria-label="Imagen anterior"
+              onClick={() =>
+                setSlideIndex(slideIndex === 0 ? slides.length - 1 : slideIndex - 1)
+              }
             >
               ‹
             </button>
@@ -116,74 +105,41 @@ export const Home: React.FC = () => {
             </div>
 
             <button
-              type="button"
               className="origenes-slider__btn origenes-slider__btn--right"
-              onClick={nextSlide}
-              aria-label="Imagen siguiente"
+              onClick={() =>
+                setSlideIndex(slideIndex === slides.length - 1 ? 0 : slideIndex + 1)
+              }
             >
               ›
             </button>
           </div>
-
-          {/* GRID PRODUCTOS */}
-          <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
-            {productos.slice(0, 6).map((producto) => (
-              <div
-                key={producto.id}
-                className="col d-flex justify-content-center"
-              >
-                <div
-                  className="card h-100 text-center elegant-product"
-                  style={{ width: "100%", maxWidth: "350px" }}
-                >
-                  <img
-                    src={producto.imagen}
-                    className="card-img-top"
-                    height={200}
-                    alt={producto.nombre}
-                    style={{ objectFit: "cover" }}
-                  />
-                  <div className="card-body d-flex flex-column">
-                    <h5 className="card-title" style={{ color: "var(--gold2)" }}>
-                      {producto.nombre}
-                    </h5>
-                    <p
-                      className="card-text flex-grow-1"
-                      style={{ color: "var(--muted)" }}
-                    >
-                      {producto.descripcion}
-                    </p>
-
-                    <Link to="/productos" className="elegant-btn mt-auto">
-                      Ir al menú
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* HISTORIA / MISION / VISION */}
-      <section id="misionyvision" className="pb-5">
+      {/* HISTORIA / MISIÓN / VISIÓN */}
+      <section className="pb-5">
         <div className="container">
-          <header className="text-center mb-4">
-            <h2 className="h1 section-title">Historia</h2>
-            <p className="elegant-subtitle">
-              Orígenes nace en el corazón de San José de Maipo, inspirado en
-              nuestras raíces y en el camino que cada uno de nosotros ha
-              recorrido. Creemos que la cocina es memoria, identidad y
-              encuentro. Por eso cuidamos cada detalle de nuestras
-              preparaciones, respetando la tradición que nos formó, pero
-              atreviéndonos a innovar con nuevos sabores y técnicas. Somos un
-              resto bar donde lo clásico y lo moderno conviven, donde cada plato
-              cuenta una historia y cada copa acompaña un momento. En Orígenes
-              honramos de dónde venimos, para crear experiencias que se disfrutan
-              hoy.
-            </p>
-          </header>
 
+          {/* HISTORIA */}
+          <div className="text-center mb-5">
+            <h2 className="section-title mb-3">Historia</h2>
+            <div className="section-box historia-box mx-auto">
+              <p className="mb-0" style={{ color: "var(--muted)" }}>
+                Orígenes nace en el corazón de San José de Maipo, inspirado en
+                nuestras raíces y en el camino que cada uno de nosotros ha
+                recorrido. Creemos que la cocina es memoria, identidad y
+                encuentro. Por eso cuidamos cada detalle de nuestras
+                preparaciones, respetando la tradición que nos formó, pero
+                atreviéndonos a innovar con nuevos sabores y técnicas. Somos un
+                resto bar donde lo clásico y lo moderno conviven, donde cada
+                plato cuenta una historia y cada copa acompaña un momento. En
+                Orígenes honramos de dónde venimos, para crear experiencias que
+                se disfrutan hoy.
+              </p>
+            </div>
+          </div>
+
+          {/* MISIÓN Y VISIÓN */}
           <div className="row g-4">
             <div className="col-12 col-lg-6">
               <h3 className="h5 text-center section-title">Misión</h3>
@@ -192,8 +148,7 @@ export const Home: React.FC = () => {
                   Brindar una experiencia gastronómica auténtica en San José de
                   Maipo, elaborando cada plato con dedicación y respeto por
                   nuestras raíces, combinando la tradición culinaria con la
-                  innovación, cuidando cada detalle en nuestras preparaciones y
-                  ofreciendo un espacio acogedor donde la comida, la bebida y
+                  innovación y ofreciendo un espacio acogedor donde la comida y
                   el encuentro se convierten en momentos memorables.
                 </p>
               </div>
@@ -204,15 +159,14 @@ export const Home: React.FC = () => {
               <div className="section-box">
                 <p className="mb-0" style={{ color: "var(--muted)" }}>
                   Ser un referente gastronómico en la zona cordillerana,
-                  reconocido por la calidad de nuestras preparaciones, el
-                  respeto por la identidad local y la capacidad de innovar sin
-                  perder la esencia, convirtiendo a Orígenes en un lugar donde
-                  las personas se conecten con los sabores, la historia y el
-                  origen de cada experiencia.
+                  reconocido por la calidad de nuestras preparaciones y el
+                  respeto por la identidad local, sin perder la esencia que
+                  define a Orígenes.
                 </p>
               </div>
             </div>
           </div>
+
         </div>
       </section>
 
