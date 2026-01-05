@@ -386,4 +386,111 @@ p,
   background: rgba(203,179,122,.18);
   border-color: rgba(203,179,122,.4);
 }
+/* =========================
+   CARTA / PRODUCTOS
+   ========================= */
+
+.menu-filter{
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(203,179,122,.10);
+  color: var(--text);
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+
+.menu-filter:hover{
+  transform: translateY(-1px);
+  background: rgba(203,179,122,.16);
+  border-color: rgba(203,179,122,.38);
+}
+
+.menu-filter.is-active{
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  color: #101214;
+  border-color: rgba(230,211,163,.55);
+}
+
+.menu-card{
+  background: var(--panel2);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 14px 40px rgba(0,0,0,.35);
+}
+
+.menu-card__imgWrap{
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+
+.menu-card__imgWrap img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.02);
+}
+
+.menu-pill{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 12px;
+  letter-spacing: .4px;
+  border: 1px solid rgba(255,255,255,.14);
+  backdrop-filter: blur(8px);
+}
+
+.pill-comida{
+  background: rgba(95,112,95,.25);
+  color: var(--gold2);
+}
+
+.pill-tragos{
+  background: rgba(203,179,122,.18);
+  color: var(--gold2);
+}
+
+.pill-cervezas{
+  background: rgba(63,76,65,.35);
+  color: var(--gold2);
+}
+
+.menu-card__body{
+  padding: 14px;
+}
+
+.menu-card__title{
+  margin: 0 0 6px 0;
+  font-size: 1.05rem;
+  color: var(--gold2);
+  font-family: var(--font-body);
+  font-weight: 900;
+}
+
+.menu-card__desc{
+  margin: 0 0 12px 0;
+  color: var(--muted);
+  font-size: .92rem;
+  min-height: 44px;
+}
+
+.menu-card__desc.muted{
+  opacity: .55;
+}
+
+.menu-card__price{
+  font-weight: 1000;
+  color: var(--text);
+  font-size: 1.05rem;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(203,179,122,.22);
+}
 

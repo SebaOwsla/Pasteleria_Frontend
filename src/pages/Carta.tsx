@@ -1,96 +1,571 @@
-import { useEffect, useState } from "react";
-
+import React, { useMemo, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { Link } from "react-router-dom";
 
-export const Product = () => {
-  const [products, setProducts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [category, setCategory] = useState<string>("all");
+/** Reusamos fotos que YA tienes para cumplir "cada producto con imagen".
+ *  (Si quieres, después puedes poner una imagen distinta por producto.)
+ */
+import comidaImg from "../assets/imagenes/IMG_8882-Mejorado-NR.jpg";
+import postreImg from "../assets/imagenes/IMG_8938-Mejorado-NR.jpg";
+import tragoImg from "../assets/imagenes/IMG_9054-Mejorado-NR.jpg";
+import cervezaImg from "../assets/imagenes/IMG_8510-Mejorado-NR.jpg";
+import cafeImg from "../assets/imagenes/IMG_8398-Mejorado-NR.jpg";
 
+type Tipo = "comida" | "tragos" | "cervezas";
 
-  if (loading) return <p className="text-center mt-5">Cargando productos...</p>;
-  if (products.length === 0)
-    return <p className="text-center mt-5">No hay productos disponibles.</p>;
+interface Producto {
+  id: number;
+  nombre: string;
+  descripcion?: string;
+  precio: number;
+  imagen: string;
+  tipo: Tipo;        // filtro grande: comida / tragos / cervezas
+  categoria: string; // subtítulo: Cocina chilena, Sour, etc.
+}
 
-  const filtered =
-    category === "all"
-      ? products
-      : products.filter((p) => p.categoria === category);
+const formatCLP = (n: number) =>
+  `$${n.toLocaleString("es-CL")}`;
+
+const groupBy = <T, K extends string>(arr: T[], keyFn: (t: T) => K) => {
+  const map = {} as Record<K, T[]>;
+  for (const item of arr) {
+    const k = keyFn(item);
+    if (!map[k]) map[k] = [];
+    map[k].push(item);
+  }
+  return map;
+};
+
+export default function Carta() {
+  const [filtro, setFiltro] = useState<Tipo | "todo">("todo");
+
+  const productos: Producto[] = [
+    // =========================
+    // COMIDA
+    // =========================
+    {
+      id: 1,
+      nombre: "Menú Ejecutivo",
+      descripcion:
+        "Incluye: ensalada o consomé + plato principal (proteína y acompañamiento) + bebida, pan, pebre y untaduras.",
+      precio: 8900,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Menú Ejecutivo",
+    },
+
+    // Para comenzar con frescura
+    {
+      id: 2,
+      nombre: "Ceviche tradicional montado a la peruana",
+      descripcion: "Con nuestra leche de tigre Orígenes.",
+      precio: 13800,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Para comenzar con frescura",
+    },
+    {
+      id: 3,
+      nombre: "Ceviche mixto de pescado y mariscos",
+      descripcion: "Montado a la peruana con nuestra leche de tigre Orígenes.",
+      precio: 14900,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Para comenzar con frescura",
+    },
+    {
+      id: 4,
+      nombre: "Mixto de locos en su verde y pulpo al oliva",
+      precio: 17500,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Para comenzar con frescura",
+    },
+    {
+      id: 5,
+      nombre: "Tártaro de filete de res",
+      descripcion: "En mixto de encurtidos, salsa criolla y tostadas caseras.",
+      precio: 15800,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Para comenzar con frescura",
+    },
+
+    // Para comenzar con calidez
+    {
+      id: 6,
+      nombre: "Ostiones parmesana",
+      descripcion: "Con un toque de Sauvignon Blanc.",
+      precio: 17500,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Para comenzar con calidez",
+    },
+    {
+      id: 7,
+      nombre: "Camarones al pil-pil",
+      descripcion: "Con cacho de cabra ahumado en greda de Pomaire.",
+      precio: 13800,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Para comenzar con calidez",
+    },
+    {
+      id: 8,
+      nombre: "Ceviche fogón mixto (pescados y mariscos)",
+      descripcion:
+        "Asados con guarniciones peruanas y salsa de crustáceos al coñac.",
+      precio: 14900,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Para comenzar con calidez",
+    },
+
+    // Cocina chilena
+    {
+      id: 9,
+      nombre: "Plateada a la campesina",
+      descripcion:
+        "Con pastelera de choclo + pil pil de piñones de la Araucanía.",
+      precio: 17900,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Cocina chilena",
+    },
+    {
+      id: 10,
+      nombre: "Lomo a lo pobre tradicional",
+      descripcion: "Con cebolla caramelizada, papas fritas y huevo frito.",
+      precio: 19500,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Cocina chilena",
+    },
+    {
+      id: 11,
+      nombre: "Chupe de jaiba",
+      descripcion: "En base de bisque y reducción de carcasas (estilo Orígenes).",
+      precio: 16500,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Cocina chilena",
+    },
+    {
+      id: 12,
+      nombre: "Costillar a la chilena",
+      descripcion: "Con puré de albahaca y chimichurri ahumado.",
+      precio: 17900,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Cocina chilena",
+    },
+    {
+      id: 13,
+      nombre: "Merluza austral frita",
+      descripcion: "Con ensalada a la chilena y papas mayo.",
+      precio: 15500,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Cocina chilena",
+    },
+    {
+      id: 14,
+      nombre: "Charquicán de charqui",
+      descripcion: "Con longaniza de Chillán y huevo frito.",
+      precio: 12300,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Cocina chilena",
+    },
+
+    // Cocina internacional
+    {
+      id: 15,
+      nombre: "Salmón con camarones",
+      descripcion:
+        "En salsa menier de alcaparrones y piquillos sobre gavilla de espárragos.",
+      precio: 18900,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Cocina internacional",
+    },
+    {
+      id: 16,
+      nombre: "Filete arriero estilo Orígenes",
+      descripcion:
+        "Gratinado con queso de cabra + reducción de vino añejo + papas nativas.",
+      precio: 21500,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Cocina internacional",
+    },
+    {
+      id: 17,
+      nombre: "Lomo saltado limeño",
+      descripcion: "Con papas fritas y arroz pilaf.",
+      precio: 14900,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Cocina internacional",
+    },
+    {
+      id: 18,
+      nombre: "Pasta Orígenes casera",
+      descripcion:
+        "Ñoquis o fettuccini con salsa a elección (pesto, mechada al pomodoro o carbonara).",
+      precio: 15800,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Cocina internacional",
+    },
+    {
+      id: 19,
+      nombre: "Butter chicken gran masala",
+      descripcion: "Con mantequilla de maní coco y arroz exótico.",
+      precio: 16500,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Cocina internacional",
+    },
+    {
+      id: 20,
+      nombre: "Chaufa tridente (estilo Orígenes)",
+      descripcion:
+        "Mixto de camarones, filete y pollo; aromatizado con jengibre a la soya.",
+      precio: 17800,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Cocina internacional",
+    },
+
+    // Peques
+    {
+      id: 21,
+      nombre: "Fettuccini (peques)",
+      descripcion: "En salsa alfredo con jamón o salsa pomodoro.",
+      precio: 8900,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "El rincón de los peques",
+    },
+    {
+      id: 22,
+      nombre: "Salchipapas caseras",
+      precio: 7500,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "El rincón de los peques",
+    },
+    {
+      id: 23,
+      nombre: "Filetitos de pollo apanados",
+      descripcion: "Con papas fritas, puré o arroz.",
+      precio: 8300,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "El rincón de los peques",
+    },
+
+    // Huerto a la mesa (ensaladas)
+    {
+      id: 24,
+      nombre: "Ensalada a la chilena tradicional",
+      precio: 4600,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Del huerto a la mesa",
+    },
+    {
+      id: 25,
+      nombre: "Ensalada de palta, tomate y palmito",
+      precio: 6800,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Del huerto a la mesa",
+    },
+    {
+      id: 26,
+      nombre: "Ensalada criolla",
+      descripcion:
+        "Lechuga, tomate, cebolla morada, choclo peruano y canchita.",
+      precio: 6800,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Del huerto a la mesa",
+    },
+    {
+      id: 27,
+      nombre: "Ensalada mixta de hojas verdes",
+      descripcion: "Con tomate cherry y champiñones.",
+      precio: 6200,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Del huerto a la mesa",
+    },
+    {
+      id: 28,
+      nombre: "Ensalada César tradicional con pollo",
+      descripcion: "Lechuga, aderezo, crutones, queso parmesano.",
+      precio: 10900,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Del huerto a la mesa",
+    },
+    {
+      id: 29,
+      nombre: "Ensalada mixta del chef",
+      descripcion: "Lechuga, choclo, tomate, zanahoria y brócoli.",
+      precio: 6500,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Del huerto a la mesa",
+    },
+
+    // Postres
+    {
+      id: 30,
+      nombre: "Tiramisú (receta original de Venecia)",
+      descripcion: "Con mascarpone y cacao amazónico.",
+      precio: 6500,
+      imagen: postreImg,
+      tipo: "comida",
+      categoria: "Un dulce final",
+    },
+    {
+      id: 31,
+      nombre: "Suspiro limeño tradicional",
+      descripcion: "Con merengue al oport perfumado.",
+      precio: 5800,
+      imagen: postreImg,
+      tipo: "comida",
+      categoria: "Un dulce final",
+    },
+    {
+      id: 32,
+      nombre: "Volcán de chocolate",
+      descripcion: "Con helado y salsa de berries al cassis.",
+      precio: 6500,
+      imagen: postreImg,
+      tipo: "comida",
+      categoria: "Un dulce final",
+    },
+    {
+      id: 33,
+      nombre: "Mousse de Baileys",
+      descripcion: "Con chocolate blanco y salsa de naranjas.",
+      precio: 5900,
+      imagen: postreImg,
+      tipo: "comida",
+      categoria: "Un dulce final",
+    },
+    {
+      id: 34,
+      nombre: "Crème brûlée",
+      descripcion: "Caramelo crocante y frutillas borrachas al merlot.",
+      precio: 6500,
+      imagen: postreImg,
+      tipo: "comida",
+      categoria: "Un dulce final",
+    },
+    {
+      id: 35,
+      nombre: "Pie de limón Orígenes al vaso",
+      descripcion: "Con pica y crumble de naranja.",
+      precio: 6200,
+      imagen: postreImg,
+      tipo: "comida",
+      categoria: "Un dulce final",
+    },
+
+    // =========================
+    // TRAGOS / BEBESTIBLES
+    // =========================
+    // Líquidos
+    { id: 36, nombre: "Bebidas gaseosas", precio: 2900, imagen: tragoImg, tipo: "tragos", categoria: "Líquidos bebestibles" },
+    { id: 37, nombre: "Néctar de sabores", precio: 3500, imagen: tragoImg, tipo: "tragos", categoria: "Líquidos bebestibles" },
+    { id: 38, nombre: "Jugo natural", precio: 4500, imagen: tragoImg, tipo: "tragos", categoria: "Líquidos bebestibles" },
+    { id: 39, nombre: "Agua mineral (con y sin gas)", precio: 2500, imagen: tragoImg, tipo: "tragos", categoria: "Líquidos bebestibles" },
+    { id: 40, nombre: "Limonada clásica", descripcion: "Con jugo de limón natural.", precio: 4300, imagen: tragoImg, tipo: "tragos", categoria: "Líquidos bebestibles" },
+    { id: 41, nombre: "Limonada menta jengibre", precio: 4500, imagen: tragoImg, tipo: "tragos", categoria: "Líquidos bebestibles" },
+    { id: 42, nombre: "Limonada frambuesa menta", precio: 4800, imagen: tragoImg, tipo: "tragos", categoria: "Líquidos bebestibles" },
+    { id: 43, nombre: "Limonada con albahaca fresca", precio: 4500, imagen: tragoImg, tipo: "tragos", categoria: "Líquidos bebestibles" },
+
+    // Sour
+    { id: 44, nombre: "Pisco sour a la peruana", precio: 5200, imagen: tragoImg, tipo: "tragos", categoria: "Aperitivos Sour" },
+    { id: 45, nombre: "Mango sour", precio: 5500, imagen: tragoImg, tipo: "tragos", categoria: "Aperitivos Sour" },
+    { id: 46, nombre: "Tropical sour", descripcion: "Mango – maracuyá.", precio: 5800, imagen: tragoImg, tipo: "tragos", categoria: "Aperitivos Sour" },
+    { id: 47, nombre: "Maracuyá sour", precio: 5500, imagen: tragoImg, tipo: "tragos", categoria: "Aperitivos Sour" },
+    { id: 48, nombre: "Sour menta jengibre", precio: 5500, imagen: tragoImg, tipo: "tragos", categoria: "Aperitivos Sour" },
+    { id: 49, nombre: "Sour de frambuesa", precio: 5800, imagen: tragoImg, tipo: "tragos", categoria: "Aperitivos Sour" },
+    { id: 50, nombre: "Sour Catedral (a elección)", descripcion: "Todos a solo $8.990.", precio: 8990, imagen: tragoImg, tipo: "tragos", categoria: "Aperitivos Sour" },
+
+    // Cócteles
+    { id: 51, nombre: "Daikiri", descripcion: "Tradicional, frambuesa o mango.", precio: 5200, imagen: tragoImg, tipo: "tragos", categoria: "Variedad de cócteles" },
+    { id: 52, nombre: "Tequila margarita", precio: 5800, imagen: tragoImg, tipo: "tragos", categoria: "Variedad de cócteles" },
+    { id: 53, nombre: "Tequila sunrise", precio: 5800, imagen: tragoImg, tipo: "tragos", categoria: "Variedad de cócteles" },
+    { id: 54, nombre: "Tequila margarita blue", precio: 6200, imagen: tragoImg, tipo: "tragos", categoria: "Variedad de cócteles" },
+    { id: 55, nombre: "Piña colada", precio: 5500, imagen: tragoImg, tipo: "tragos", categoria: "Variedad de cócteles" },
+    { id: 56, nombre: "Mojito", descripcion: "Tradicional, mango, berries y blue.", precio: 6800, imagen: tragoImg, tipo: "tragos", categoria: "Variedad de cócteles" },
+    { id: 57, nombre: "Vodka tonic", precio: 6200, imagen: tragoImg, tipo: "tragos", categoria: "Variedad de cócteles" },
+    { id: 58, nombre: "Gin tonic", precio: 6500, imagen: tragoImg, tipo: "tragos", categoria: "Variedad de cócteles" },
+    { id: 59, nombre: "Clavo oxidado", precio: 6500, imagen: tragoImg, tipo: "tragos", categoria: "Variedad de cócteles" },
+    { id: 60, nombre: "Negroni de Florencia", precio: 6500, imagen: tragoImg, tipo: "tragos", categoria: "Variedad de cócteles" },
+    { id: 61, nombre: "Old fashion", precio: 6200, imagen: tragoImg, tipo: "tragos", categoria: "Variedad de cócteles" },
+    { id: 62, nombre: "Espresso martini", precio: 6200, imagen: tragoImg, tipo: "tragos", categoria: "Variedad de cócteles" },
+    { id: 63, nombre: "Baileys Irish Cream", precio: 6800, imagen: tragoImg, tipo: "tragos", categoria: "Variedad de cócteles" },
+    { id: 64, nombre: "Kir royal", precio: 6500, imagen: tragoImg, tipo: "tragos", categoria: "Variedad de cócteles" },
+    { id: 65, nombre: "Copa de espumante", precio: 5500, imagen: tragoImg, tipo: "tragos", categoria: "Variedad de cócteles" },
+    { id: 66, nombre: "Ramazzotti spritz", precio: 7200, imagen: tragoImg, tipo: "tragos", categoria: "Variedad de cócteles" },
+    { id: 67, nombre: "Aperol spritz", precio: 7200, imagen: tragoImg, tipo: "tragos", categoria: "Variedad de cócteles" },
+
+    // Bajativos
+    { id: 68, nombre: "Licor bitter araucano", precio: 3500, imagen: tragoImg, tipo: "tragos", categoria: "Bajativos" },
+    { id: 69, nombre: "Fernet", precio: 4200, imagen: tragoImg, tipo: "tragos", categoria: "Bajativos" },
+    { id: 70, nombre: "Amaretto", precio: 3600, imagen: tragoImg, tipo: "tragos", categoria: "Bajativos" },
+    { id: 71, nombre: "Manzanilla", precio: 2600, imagen: tragoImg, tipo: "tragos", categoria: "Bajativos" },
+    { id: 72, nombre: "Menta", precio: 2600, imagen: tragoImg, tipo: "tragos", categoria: "Bajativos" },
+
+    // Cafetería
+    { id: 73, nombre: "Té fina selección", precio: 2900, imagen: cafeImg, tipo: "tragos", categoria: "Cafetería" },
+    { id: 74, nombre: "Agua de hierbas e infusiones", precio: 2500, imagen: cafeImg, tipo: "tragos", categoria: "Cafetería" },
+    { id: 75, nombre: "Café americano", precio: 2900, imagen: cafeImg, tipo: "tragos", categoria: "Cafetería" },
+    { id: 76, nombre: "Café espresso", precio: 2600, imagen: cafeImg, tipo: "tragos", categoria: "Cafetería" },
+    { id: 77, nombre: "Café espresso doble", precio: 2900, imagen: cafeImg, tipo: "tragos", categoria: "Cafetería" },
+    { id: 78, nombre: "Café cortado", precio: 3200, imagen: cafeImg, tipo: "tragos", categoria: "Cafetería" },
+    { id: 79, nombre: "Café mocaccino", precio: 3500, imagen: cafeImg, tipo: "tragos", categoria: "Cafetería" },
+    { id: 80, nombre: "Café capuccino", precio: 3500, imagen: cafeImg, tipo: "tragos", categoria: "Cafetería" },
+    { id: 81, nombre: "Café irlandés", precio: 4200, imagen: cafeImg, tipo: "tragos", categoria: "Cafetería" },
+    { id: 82, nombre: "Chocolate caliente", descripcion: "Con marshmallow.", precio: 3500, imagen: cafeImg, tipo: "tragos", categoria: "Cafetería" },
+
+    // =========================
+    // CERVEZAS
+    // =========================
+    { id: 83, nombre: "Austral Lager", precio: 5300, imagen: cervezaImg, tipo: "cervezas", categoria: "Cervezas" },
+    { id: 84, nombre: "Kunstmann Lager", precio: 5300, imagen: cervezaImg, tipo: "cervezas", categoria: "Cervezas" },
+    { id: 85, nombre: "Austral Black", precio: 5300, imagen: cervezaImg, tipo: "cervezas", categoria: "Cervezas" },
+    { id: 86, nombre: "Kunstmann Yagán", precio: 5600, imagen: cervezaImg, tipo: "cervezas", categoria: "Cervezas" },
+    { id: 87, nombre: "Royal Guard", precio: 4300, imagen: cervezaImg, tipo: "cervezas", categoria: "Cervezas" },
+    { id: 88, nombre: "Heineken", precio: 4300, imagen: cervezaImg, tipo: "cervezas", categoria: "Cervezas" },
+    { id: 89, nombre: "Sol", precio: 4300, imagen: cervezaImg, tipo: "cervezas", categoria: "Cervezas" },
+    { id: 90, nombre: "Kunstmann sin alcohol", precio: 5200, imagen: cervezaImg, tipo: "cervezas", categoria: "Cervezas" },
+    { id: 91, nombre: "Chelada", descripcion: "Cerveza, jugo de limón y sal.", precio: 4700, imagen: cervezaImg, tipo: "cervezas", categoria: "Cervezas" },
+    { id: 92, nombre: "Michelada", descripcion: "Cerveza, jugo de limón, tabasco, salsa inglesa y tajín.", precio: 5200, imagen: cervezaImg, tipo: "cervezas", categoria: "Cervezas" },
+    { id: 93, nombre: "Michelada Azteca", precio: 5500, imagen: cervezaImg, tipo: "cervezas", categoria: "Cervezas" },
+    { id: 94, nombre: "Michelada con jugo de tomate", precio: 5500, imagen: cervezaImg, tipo: "cervezas", categoria: "Cervezas" },
+    { id: 95, nombre: "Mexijito", descripcion: "Tequila, limón, tabasco, salsa inglesa, sal, tajín y corona invertida.", precio: 6500, imagen: cervezaImg, tipo: "cervezas", categoria: "Cervezas" },
+  ];
+
+  const productosFiltrados = useMemo(() => {
+    if (filtro === "todo") return productos;
+    return productos.filter((p) => p.tipo === filtro);
+  }, [filtro, productos]);
+
+  const grupos = useMemo(() => {
+    const g = groupBy(productosFiltrados, (p) => p.categoria);
+    // orden manual bonito
+    const orden = [
+      "Menú Ejecutivo",
+      "Para comenzar con frescura",
+      "Para comenzar con calidez",
+      "Cocina chilena",
+      "Cocina internacional",
+      "El rincón de los peques",
+      "Del huerto a la mesa",
+      "Un dulce final",
+      "Líquidos bebestibles",
+      "Cervezas",
+      "Aperitivos Sour",
+      "Variedad de cócteles",
+      "Bajativos",
+      "Cafetería",
+    ];
+    return orden
+      .filter((k) => g[k])
+      .map((k) => [k, g[k]] as const);
+  }, [productosFiltrados]);
 
   return (
-    <div style={{ backgroundColor: "#ffc8a0", minHeight: "100vh" }}>
+    <div className="elegant-bg">
       <Navbar />
 
-      <div className="container mt-4">
-        <h2 className="text-center mb-4">Nuestros Productos</h2>
+      <section className="elegant-wrap">
+        <div className="container elegant-card">
+          <h1 className="text-center elegant-title mb-2">Carta Orígenes</h1>
+          <p className="text-center elegant-subtitle mb-4">
+            Elige tu categoría: comida, tragos o cervezas.
+          </p>
 
-        <div className="d-flex justify-content-center mb-3 gap-3">
-          <button
-            className="btn btn-outline-dark"
-            onClick={() => setCategory("all")}
-          >
-            Todos
-          </button>
-          <button
-            className="btn btn-outline-dark"
-            onClick={() => setCategory("tortaPersonalizada")}
-          >
-            Personalizadas
-          </button>
-          <button
-            className="btn btn-outline-dark"
-            onClick={() => setCategory("tortaClasica")}
-          >
-            Clásicas
-          </button>
-        </div>
+          {/* FILTROS */}
+          <div className="d-flex justify-content-center flex-wrap gap-2 mb-4">
+            <button
+              className={`menu-filter ${filtro === "todo" ? "is-active" : ""}`}
+              onClick={() => setFiltro("todo")}
+            >
+              Todo
+            </button>
+            <button
+              className={`menu-filter ${filtro === "comida" ? "is-active" : ""}`}
+              onClick={() => setFiltro("comida")}
+            >
+              Comida
+            </button>
+            <button
+              className={`menu-filter ${filtro === "tragos" ? "is-active" : ""}`}
+              onClick={() => setFiltro("tragos")}
+            >
+              Tragos
+            </button>
+            <button
+              className={`menu-filter ${filtro === "cervezas" ? "is-active" : ""
+                }`}
+              onClick={() => setFiltro("cervezas")}
+            >
+              Cervezas
+            </button>
+          </div>
 
+          {/* LISTADO POR CATEGORÍA */}
+          {grupos.map(([categoria, items]) => (
+            <div key={categoria} className="mb-5">
+              <h2 className="section-title text-center mb-3">{categoria}</h2>
 
-        <div className="row">
-          {filtered.map((product) => (
-            <div className="col-md-4 mb-4" key={product.id}>
-              <div className="card h-100 shadow-sm">
-                <img
-                  src={product.imagen}
-                  className="card-img-top"
-                  alt={product.nombre}
-                  style={{
-                    objectFit: "cover",
-                    height: "250px",
-                    borderRadius: "8px",
-                  }}
-                />
+              <div className="row g-3">
+                {items.map((p) => (
+                  <div key={p.id} className="col-12 col-sm-6 col-lg-4">
+                    <div className="menu-card h-100">
+                      <div className="menu-card__imgWrap">
+                        <img src={p.imagen} alt={p.nombre} />
+                        <span className={`menu-pill pill-${p.tipo}`}>
+                          {p.tipo.toUpperCase()}
+                        </span>
+                      </div>
 
+                      <div className="menu-card__body">
+                        <h3 className="menu-card__title">{p.nombre}</h3>
+                        {p.descripcion ? (
+                          <p className="menu-card__desc">{p.descripcion}</p>
+                        ) : (
+                          <p className="menu-card__desc muted"> </p>
+                        )}
 
-                <div className="card-body d-flex flex-column">
-                  <h5 className="card-title">{product.nombre}</h5>
-
-                  <p className="card-text flex-grow-1">
-                    {product.descripcion}
-                  </p>
-
-
-                  <div className="mt-auto">
-                    <p className="fw-bold mb-2">$ {product.precio}</p>
-
-                    <Link
-                      to={`/productos/${product.id}`}
-                      className="btn btn-dark w-100"
-                    >
-                      Ver Detalle
-                    </Link>
+                        <div className="menu-card__price">
+                          {formatCLP(p.precio)}
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
             </div>
           ))}
+
+          <p className="text-center" style={{ color: "var(--muted)" }}>
+            * Productos y precios transcritos desde la carta del local.
+          </p>
         </div>
-      </div>
+      </section>
+
       <Footer />
     </div>
   );
-};
-
-export default Product;
+}
