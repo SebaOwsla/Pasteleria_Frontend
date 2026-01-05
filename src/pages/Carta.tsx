@@ -2,9 +2,7 @@ import React, { useMemo, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-/** Reusamos fotos que YA tienes para cumplir "cada producto con imagen".
- *  (Si quieres, después puedes poner una imagen distinta por producto.)
- */
+
 import comidaImg from "../assets/imagenes/IMG_8882-Mejorado-NR.jpg";
 import postreImg from "../assets/imagenes/IMG_8938-Mejorado-NR.jpg";
 import tragoImg from "../assets/imagenes/IMG_9054-Mejorado-NR.jpg";
@@ -19,8 +17,8 @@ interface Producto {
   descripcion?: string;
   precio: number;
   imagen: string;
-  tipo: Tipo;        // filtro grande: comida / tragos / cervezas
-  categoria: string; // subtítulo: Cocina chilena, Sour, etc.
+  tipo: Tipo;       
+  categoria: string; 
 }
 
 const formatCLP = (n: number) =>
@@ -40,15 +38,13 @@ export default function Carta() {
   const [filtro, setFiltro] = useState<Tipo | "todo">("todo");
 
   const productos: Producto[] = [
-    // =========================
-    // COMIDA
-    // =========================
+
     {
       id: 1,
       nombre: "Menú Ejecutivo",
       descripcion:
         "Incluye: ensalada o consomé + plato principal (proteína y acompañamiento) + bebida, pan, pebre y untaduras.",
-      precio: 8900,
+      precio: 9500,
       imagen: comidaImg,
       tipo: "comida",
       categoria: "Menú Ejecutivo",

@@ -24,13 +24,13 @@ export default function Navbar() {
 
         <div className="collapse navbar-collapse" id="mainNavbar">
           <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
+                {/*<li className="nav-item">
               <NavLink className="nav-link" to="/" end>
                 Inicio
               </NavLink>
             </li>
 
-            {/* ✅ MENÚ → Index.tsx */}
+            * ✅ MENÚ → Index.tsx */}
             <li className="nav-item">
               <NavLink className="nav-link" to="/menu">
                 Menú
@@ -44,11 +44,11 @@ export default function Navbar() {
               </NavLink>
             </li>
 
-            <li className="nav-item">
+            {/*<li className="nav-item">
               <NavLink className="nav-link" to="/contacto">
                 Contacto
               </NavLink>
-            </li>
+            </li>*/}
           </ul>
         </div>
       </div>
