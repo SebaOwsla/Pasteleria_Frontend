@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -86,7 +85,9 @@ const Home: React.FC = () => {
             <button
               className="origenes-slider__btn origenes-slider__btn--left"
               onClick={() =>
-                setSlideIndex(slideIndex === 0 ? slides.length - 1 : slideIndex - 1)
+                setSlideIndex(
+                  slideIndex === 0 ? slides.length - 1 : slideIndex - 1
+                )
               }
             >
               ‹
@@ -107,7 +108,9 @@ const Home: React.FC = () => {
             <button
               className="origenes-slider__btn origenes-slider__btn--right"
               onClick={() =>
-                setSlideIndex(slideIndex === slides.length - 1 ? 0 : slideIndex + 1)
+                setSlideIndex(
+                  slideIndex === slides.length - 1 ? 0 : slideIndex + 1
+                )
               }
             >
               ›
@@ -119,7 +122,6 @@ const Home: React.FC = () => {
       {/* HISTORIA / MISIÓN / VISIÓN */}
       <section className="pb-5">
         <div className="container">
-
           {/* HISTORIA */}
           <div className="text-center mb-5">
             <h2 className="section-title mb-3">Historia</h2>
@@ -166,7 +168,64 @@ const Home: React.FC = () => {
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
+      {/* ✅ NUEVO: REDES SOCIALES + OPINIONES GOOGLE (IFRAME) */}
+      <section className="pb-5">
+        <div className="container text-center">
+          <h2 className="section-title mb-4">Conéctate con Orígenes</h2>
+
+          {/* REDES */}
+          <div className="d-flex justify-content-center gap-4 mb-4 flex-wrap">
+            {/* INSTAGRAM */}
+            <a
+              href="https://www.instagram.com/origenes.restobar?igsh=cnY4M3BueWN5ejRz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-card"
+            >
+              <i className="bi bi-instagram social-icon"></i>
+              <span>@origenes.restobar</span>
+            </a>
+
+            {/* WHATSAPP */}
+            <a
+              href="https://wa.me/56966475903"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-card"
+            >
+              <i className="bi bi-whatsapp social-icon"></i>
+              <span>Reservas por WhatsApp</span>
+            </a>
+          </div>
+
+          {/* OPINIONES GOOGLE (IFRAME) */}
+          <div
+            className="section-box mx-auto"
+            style={{ maxWidth: "900px", padding: 0, overflow: "hidden" }}
+          >
+            <iframe
+              src="https://www.google.com/maps?q=Or%C3%ADgenes%20RestoBar%20San%20Jos%C3%A9%20de%20Maipo&output=embed"
+              width="100%"
+              height="450"
+              style={{ border: 0 }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Opiniones Google - Orígenes RestoBar"
+            />
+          </div>
+
+          <a
+            href="https://share.google/esvbRq9WHfGbAPSGg"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="elegant-link"
+            style={{ marginTop: 14, display: "inline-block" }}
+          >
+            Ver reseñas en Google
+          </a>
         </div>
       </section>
 

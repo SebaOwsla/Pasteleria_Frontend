@@ -1,7 +1,8 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import Inicio from "./pages/Inicio";     // 👈 HOME
-import Carta from "./pages/Index";       // 👈 MENÚ
+import Inicio from "./pages/Inicio";
+import Menu from "./pages/Index";      // Menú
+import Carta from "./pages/Carta";     // Productos
 import Contact from "./pages/Contact";
 import Forbidden from "./pages/Forbidden";
 
@@ -12,6 +13,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Inicio />} />
+      <Route path="/menu" element={<Menu />} />
       <Route path="/productos" element={<Carta />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/contacto" element={<Contact />} />

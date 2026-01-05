@@ -29,11 +29,21 @@ export default function Navbar() {
                 Inicio
               </NavLink>
             </li>
+
+            {/* ✅ MENÚ → Index.tsx */}
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/menu">
+                Menú
+              </NavLink>
+            </li>
+
+            {/* ✅ CARTA → Carta.tsx (PRODUCTOS) */}
             <li className="nav-item">
               <NavLink className="nav-link" to="/productos">
                 Carta
               </NavLink>
             </li>
+
             <li className="nav-item">
               <NavLink className="nav-link" to="/contacto">
                 Contacto
