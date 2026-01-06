@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom"; // ✅ NUEVO
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -122,6 +123,17 @@ const Home: React.FC = () => {
       {/* HISTORIA / MISIÓN / VISIÓN */}
       <section className="pb-5">
         <div className="container">
+
+          {/* ✅ NUEVO: BOTÓN ARRIBA DE HISTORIA (MISMA CARTA) */}
+          <div className="text-center mb-4">
+            <Link to="/productos" className="social-card carta-btn mx-auto">
+              <i className="bi bi-journal-text social-icon" />
+              <span>Ver la carta</span>
+            </Link>
+
+
+          </div>
+
           {/* HISTORIA */}
           <div className="text-center mb-5">
             <h2 className="section-title mb-3">Historia</h2>
@@ -178,7 +190,6 @@ const Home: React.FC = () => {
 
           {/* REDES */}
           <div className="d-flex justify-content-center gap-4 mb-4 flex-wrap">
-            {/* INSTAGRAM */}
             <a
               href="https://www.instagram.com/origenes.restobar?igsh=cnY4M3BueWN5ejRz"
               target="_blank"
@@ -189,7 +200,6 @@ const Home: React.FC = () => {
               <span>@origenes.restobar</span>
             </a>
 
-            {/* WHATSAPP */}
             <a
               href="https://wa.me/56966475903"
               target="_blank"
@@ -201,7 +211,6 @@ const Home: React.FC = () => {
             </a>
           </div>
 
-          {/* OPINIONES GOOGLE (IFRAME) */}
           <div
             className="section-box mx-auto"
             style={{ maxWidth: "900px", padding: 0, overflow: "hidden" }}
