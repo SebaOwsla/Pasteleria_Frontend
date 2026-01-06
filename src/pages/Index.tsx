@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom"; // ✅ NUEVO
 import Navbar from "../components/Navbar";
+import ThemeToggle from "../components/ThemeToggle";
 import Footer from "../components/Footer";
 
 /* IMÁGENES */
@@ -237,7 +238,7 @@ const Home: React.FC = () => {
           </a>
         </div>
       </section>
-
+      <ThemeToggle />
       <Footer />
     </div>
   );

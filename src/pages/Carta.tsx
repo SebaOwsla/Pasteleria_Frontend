@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import Navbar from "../components/Navbar";
+import ThemeToggle from "../components/ThemeToggle";
 import Footer from "../components/Footer";
 
 import comidaImg from "../assets/imagenes/IMG_8882-Mejorado-NR.jpg";
@@ -559,9 +560,8 @@ export default function Carta() {
           {filtro === "comida" && (
             <div className="menu-subfilters mb-4">
               <button
-                className={`menu-filter menu-filter--sub ${
-                  subCatComida === "todas" ? "is-active" : ""
-                }`}
+                className={`menu-filter menu-filter--sub ${subCatComida === "todas" ? "is-active" : ""
+                  }`}
                 onClick={() => setSubCatComida("todas")}
               >
                 Todas
@@ -570,9 +570,8 @@ export default function Carta() {
               {subcategoriasComida.map((sc) => (
                 <button
                   key={sc}
-                  className={`menu-filter menu-filter--sub ${
-                    subCatComida === sc ? "is-active" : ""
-                  }`}
+                  className={`menu-filter menu-filter--sub ${subCatComida === sc ? "is-active" : ""
+                    }`}
                   onClick={() => setSubCatComida(sc)}
                 >
                   {sc}
@@ -585,9 +584,8 @@ export default function Carta() {
           {filtro === "tragos" && (
             <div className="menu-subfilters mb-4">
               <button
-                className={`menu-filter menu-filter--sub ${
-                  subCatTragos === "todas" ? "is-active" : ""
-                }`}
+                className={`menu-filter menu-filter--sub ${subCatTragos === "todas" ? "is-active" : ""
+                  }`}
                 onClick={() => setSubCatTragos("todas")}
               >
                 Todas
@@ -596,9 +594,8 @@ export default function Carta() {
               {subcategoriasTragos.map((sc) => (
                 <button
                   key={sc}
-                  className={`menu-filter menu-filter--sub ${
-                    subCatTragos === sc ? "is-active" : ""
-                  }`}
+                  className={`menu-filter menu-filter--sub ${subCatTragos === sc ? "is-active" : ""
+                    }`}
                   onClick={() => setSubCatTragos(sc)}
                 >
                   {sc}
@@ -648,7 +645,7 @@ export default function Carta() {
           </p>
         </div>
       </section>
-
+      <ThemeToggle />
       <Footer />
     </div>
   );
