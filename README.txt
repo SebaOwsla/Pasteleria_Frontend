@@ -7,10 +7,4 @@ Estructura:
 - public/index.html
 - package.json, tsconfig.json
 
-Instrucciones rápidas:
-1. Descomprime 'pasteleria_react_converted.zip'
-2. En la carpeta del proyecto ejecuta:
-   npm install
-   npm run dev
 
-Nota: Revisar src/assets para imágenes copiadas del ZIP. Ajusta estilos en src/index.css
