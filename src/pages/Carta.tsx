@@ -17,7 +17,7 @@ interface Producto {
   precio: number;
   imagen: string;
   tipo: Tipo;
-  categoria: string; // ✅ la usamos como subcategoría
+  categoria: string; // subcategoría
 }
 
 const formatCLP = (n: number) => `$${n.toLocaleString("es-CL")}`;
@@ -35,9 +35,30 @@ const groupBy = <T, K extends string>(arr: T[], keyFn: (t: T) => K) => {
 export default function Carta() {
   const [filtro, setFiltro] = useState<Tipo | "todo">("todo");
 
-  // ✅ Subfiltros: para comida y tragos
+  // Subfiltros
   const [subCatComida, setSubCatComida] = useState<string>("todas");
   const [subCatTragos, setSubCatTragos] = useState<string>("todas");
+
+  // ✅ Orden “bonito” (también sirve para ordenar subcategorías)
+  const ordenCategorias = [
+    // Comida
+    "Menú Ejecutivo",
+    "Para comenzar con frescura",
+    "Para comenzar con calidez",
+    "Cocina chilena",
+    "Cocina internacional",
+    "El rincón de los peques",
+    "Del huerto a la mesa",
+    "Un dulce final",
+    // Tragos
+    "Líquidos bebestibles",
+    "Aperitivos Sour",
+    "Variedad de cócteles",
+    "Bajativos",
+    "Cafetería",
+    // Cervezas
+    "Cervezas",
+  ];
 
   const productos: Producto[] = [
     {
@@ -245,7 +266,14 @@ export default function Carta() {
       tipo: "comida",
       categoria: "El rincón de los peques",
     },
-    { id: 22, nombre: "Salchipapas caseras", precio: 7500, imagen: comidaImg, tipo: "comida", categoria: "El rincón de los peques" },
+    {
+      id: 22,
+      nombre: "Salchipapas caseras",
+      precio: 7500,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "El rincón de los peques",
+    },
     {
       id: 23,
       nombre: "Filetitos de pollo apanados",
@@ -257,8 +285,22 @@ export default function Carta() {
     },
 
     // Ensaladas
-    { id: 24, nombre: "Ensalada a la chilena tradicional", precio: 4600, imagen: comidaImg, tipo: "comida", categoria: "Del huerto a la mesa" },
-    { id: 25, nombre: "Ensalada de palta, tomate y palmito", precio: 6800, imagen: comidaImg, tipo: "comida", categoria: "Del huerto a la mesa" },
+    {
+      id: 24,
+      nombre: "Ensalada a la chilena tradicional",
+      precio: 4600,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Del huerto a la mesa",
+    },
+    {
+      id: 25,
+      nombre: "Ensalada de palta, tomate y palmito",
+      precio: 6800,
+      imagen: comidaImg,
+      tipo: "comida",
+      categoria: "Del huerto a la mesa",
+    },
     {
       id: 26,
       nombre: "Ensalada criolla",
@@ -306,15 +348,53 @@ export default function Carta() {
       tipo: "comida",
       categoria: "Un dulce final",
     },
-    { id: 31, nombre: "Suspiro limeño tradicional", descripcion: "Con merengue al oport perfumado.", precio: 5800, imagen: postreImg, tipo: "comida", categoria: "Un dulce final" },
-    { id: 32, nombre: "Volcán de chocolate", descripcion: "Con helado y salsa de berries al cassis.", precio: 6500, imagen: postreImg, tipo: "comida", categoria: "Un dulce final" },
-    { id: 33, nombre: "Mousse de Baileys", descripcion: "Con chocolate blanco y salsa de naranjas.", precio: 5900, imagen: postreImg, tipo: "comida", categoria: "Un dulce final" },
-    { id: 34, nombre: "Crème brûlée", descripcion: "Caramelo crocante y frutillas borrachas al merlot.", precio: 6500, imagen: postreImg, tipo: "comida", categoria: "Un dulce final" },
-    { id: 35, nombre: "Pie de limón Orígenes al vaso", descripcion: "Con pica y crumble de naranja.", precio: 6200, imagen: postreImg, tipo: "comida", categoria: "Un dulce final" },
+    {
+      id: 31,
+      nombre: "Suspiro limeño tradicional",
+      descripcion: "Con merengue al oport perfumado.",
+      precio: 5800,
+      imagen: postreImg,
+      tipo: "comida",
+      categoria: "Un dulce final",
+    },
+    {
+      id: 32,
+      nombre: "Volcán de chocolate",
+      descripcion: "Con helado y salsa de berries al cassis.",
+      precio: 6500,
+      imagen: postreImg,
+      tipo: "comida",
+      categoria: "Un dulce final",
+    },
+    {
+      id: 33,
+      nombre: "Mousse de Baileys",
+      descripcion: "Con chocolate blanco y salsa de naranjas.",
+      precio: 5900,
+      imagen: postreImg,
+      tipo: "comida",
+      categoria: "Un dulce final",
+    },
+    {
+      id: 34,
+      nombre: "Crème brûlée",
+      descripcion: "Caramelo crocante y frutillas borrachas al merlot.",
+      precio: 6500,
+      imagen: postreImg,
+      tipo: "comida",
+      categoria: "Un dulce final",
+    },
+    {
+      id: 35,
+      nombre: "Pie de limón Orígenes al vaso",
+      descripcion: "Con pica y crumble de naranja.",
+      precio: 6200,
+      imagen: postreImg,
+      tipo: "comida",
+      categoria: "Un dulce final",
+    },
 
-    // =========================
     // TRAGOS
-    // =========================
     { id: 36, nombre: "Bebidas gaseosas", precio: 2900, imagen: tragoImg, tipo: "tragos", categoria: "Líquidos bebestibles" },
     { id: 37, nombre: "Néctar de sabores", precio: 3500, imagen: tragoImg, tipo: "tragos", categoria: "Líquidos bebestibles" },
     { id: 38, nombre: "Jugo natural", precio: 4500, imagen: tragoImg, tipo: "tragos", categoria: "Líquidos bebestibles" },
@@ -367,9 +447,7 @@ export default function Carta() {
     { id: 81, nombre: "Café irlandés", precio: 4200, imagen: cafeImg, tipo: "tragos", categoria: "Cafetería" },
     { id: 82, nombre: "Chocolate caliente", descripcion: "Con marshmallow.", precio: 3500, imagen: cafeImg, tipo: "tragos", categoria: "Cafetería" },
 
-    // =========================
     // CERVEZAS
-    // =========================
     { id: 83, nombre: "Austral Lager", precio: 5300, imagen: cervezaImg, tipo: "cervezas", categoria: "Cervezas" },
     { id: 84, nombre: "Kunstmann Lager", precio: 5300, imagen: cervezaImg, tipo: "cervezas", categoria: "Cervezas" },
     { id: 85, nombre: "Austral Black", precio: 5300, imagen: cervezaImg, tipo: "cervezas", categoria: "Cervezas" },
@@ -385,7 +463,7 @@ export default function Carta() {
     { id: 95, nombre: "Mexijito", descripcion: "Tequila, limón, tabasco, salsa inglesa, sal, tajín y corona invertida.", precio: 6500, imagen: cervezaImg, tipo: "cervezas", categoria: "Cervezas" },
   ];
 
-  // ✅ Reset subfiltros al cambiar filtro principal
+  // Reset subfiltros al cambiar filtro principal
   const setFiltroSafe = (nuevo: Tipo | "todo") => {
     setFiltro(nuevo);
     setSubCatComida("todas");
@@ -397,22 +475,22 @@ export default function Carta() {
     return productos.filter((p) => p.tipo === filtro);
   }, [filtro, productos]);
 
-  // ✅ Subcategorías dinámicas
+  // ✅ Subcategorías (ordenadas)
   const subcategoriasComida = useMemo(() => {
     if (filtro !== "comida") return [];
     const set = new Set<string>();
     for (const p of productosFiltrados) set.add(p.categoria);
-    return Array.from(set);
+    return ordenCategorias.filter((c) => set.has(c));
   }, [filtro, productosFiltrados]);
 
   const subcategoriasTragos = useMemo(() => {
     if (filtro !== "tragos") return [];
     const set = new Set<string>();
     for (const p of productosFiltrados) set.add(p.categoria);
-    return Array.from(set);
+    return ordenCategorias.filter((c) => set.has(c));
   }, [filtro, productosFiltrados]);
 
-  // ✅ Aplicar subfiltros según el filtro activo
+  // Aplicar subfiltros
   const productosFinales = useMemo(() => {
     if (filtro === "comida") {
       if (subCatComida === "todas") return productosFiltrados;
@@ -427,30 +505,10 @@ export default function Carta() {
     return productosFiltrados;
   }, [filtro, subCatComida, subCatTragos, productosFiltrados]);
 
+  // Agrupar por categoría
   const grupos = useMemo(() => {
     const g = groupBy(productosFinales, (p) => p.categoria);
-
-    const orden = [
-      // Comida
-      "Menú Ejecutivo",
-      "Para comenzar con frescura",
-      "Para comenzar con calidez",
-      "Cocina chilena",
-      "Cocina internacional",
-      "El rincón de los peques",
-      "Del huerto a la mesa",
-      "Un dulce final",
-      // Tragos
-      "Líquidos bebestibles",
-      "Aperitivos Sour",
-      "Variedad de cócteles",
-      "Bajativos",
-      "Cafetería",
-      // Cervezas
-      "Cervezas",
-    ];
-
-    return orden
+    return ordenCategorias
       .filter((k) => g[k])
       .map((k) => [k, g[k]] as const);
   }, [productosFinales]);
@@ -497,12 +555,13 @@ export default function Carta() {
             </button>
           </div>
 
-          {/* ✅ SUBFILTRO SOLO PARA COMIDA */}
+          {/* SUBFILTRO COMIDA (GRID EN MÓVIL) */}
           {filtro === "comida" && (
-            <div className="d-flex justify-content-center flex-wrap gap-2 mb-4">
+            <div className="menu-subfilters mb-4">
               <button
-                className={`menu-filter menu-filter--sub ${subCatComida === "todas" ? "is-active" : ""
-                  }`}
+                className={`menu-filter menu-filter--sub ${
+                  subCatComida === "todas" ? "is-active" : ""
+                }`}
                 onClick={() => setSubCatComida("todas")}
               >
                 Todas
@@ -511,8 +570,9 @@ export default function Carta() {
               {subcategoriasComida.map((sc) => (
                 <button
                   key={sc}
-                  className={`menu-filter menu-filter--sub ${subCatComida === sc ? "is-active" : ""
-                    }`}
+                  className={`menu-filter menu-filter--sub ${
+                    subCatComida === sc ? "is-active" : ""
+                  }`}
                   onClick={() => setSubCatComida(sc)}
                 >
                   {sc}
@@ -521,12 +581,13 @@ export default function Carta() {
             </div>
           )}
 
-          {/* ✅ SUBFILTRO SOLO PARA TRAGOS */}
+          {/* SUBFILTRO TRAGOS (GRID EN MÓVIL) */}
           {filtro === "tragos" && (
-            <div className="d-flex justify-content-center flex-wrap gap-2 mb-4">
+            <div className="menu-subfilters mb-4">
               <button
-                className={`menu-filter menu-filter--sub ${subCatTragos === "todas" ? "is-active" : ""
-                  }`}
+                className={`menu-filter menu-filter--sub ${
+                  subCatTragos === "todas" ? "is-active" : ""
+                }`}
                 onClick={() => setSubCatTragos("todas")}
               >
                 Todas
@@ -535,8 +596,9 @@ export default function Carta() {
               {subcategoriasTragos.map((sc) => (
                 <button
                   key={sc}
-                  className={`menu-filter menu-filter--sub ${subCatTragos === sc ? "is-active" : ""
-                    }`}
+                  className={`menu-filter menu-filter--sub ${
+                    subCatTragos === sc ? "is-active" : ""
+                  }`}
                   onClick={() => setSubCatTragos(sc)}
                 >
                   {sc}
